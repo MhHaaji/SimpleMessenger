@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.regex.Matcher;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
 public class MainServer {
     private ServerSocket serverSocket;
     private ArrayList<Socket> acceptedSockets = new ArrayList<>();
+    private Scanner scanner = new Scanner(System.in);
 
     public void run() {
         initializeNetwork();
