@@ -15,6 +15,7 @@ public class Host {
         this.beginPort = beginPort;
         this.endPort = endPort;
         allHosts.add(this);
+        System.out.println("success!!");
     }
 
     public String getIP() {
@@ -39,13 +40,14 @@ public class Host {
 
     public static String hostHandler(String IP, int beginPort, int endPort) {
 
+        if (beginPort < 10000) {
+            return "ERROR Port number must be at least 10000";
+        } else if ((endPort - beginPort) > 1000) {
+            return "ERROR At most 1000 ports is allowed";
+        }
         for (Host host : allHosts) {
             if (host.getIP().equals(IP)) {
                 return "ERROR Repeated IP";
-            } else if (beginPort < 10000) {
-                return "ERROR Port number must be at least 10000";
-            } else if ((endPort - beginPort) > 1000) {
-                return "ERROR At most 1000 ports is allowed";
             } else {
                 for (int i = beginPort; i <= endPort; i++) {
                     if (i <= host.getEndPort() && i >= host.getBeginPort()) {
@@ -54,10 +56,9 @@ public class Host {
                 }
 
 
-                return "OK";
             }
         }
-        return null;
+        return "OK";
     }
 
 

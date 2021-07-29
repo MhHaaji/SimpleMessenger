@@ -62,11 +62,11 @@ public class MainServer {
     private String commandProcessor(String command) {
         Matcher[] matchers = getCommandMatcher(command);
         if (matchers[0].find()) {
-            String IP = matchers[1].group("ip");
-            int endPort = Integer.parseInt(matchers[1].group("endPort"));
-            int beginPort = Integer.parseInt(matchers[1].group("beginPort"));
+            String IP = matchers[0].group("ip");
+            int endPort = Integer.parseInt(matchers[0].group("endPort"));
+            int beginPort = Integer.parseInt(matchers[0].group("beginPort"));
             String respond = Host.hostHandler(IP, beginPort, endPort);
-            if (respond != "ok") {
+            if (respond != "OK") {
                 return respond;
             } else {
                 int randomPort;
@@ -76,7 +76,7 @@ public class MainServer {
                         break;
                     }
                 }
-                return "OK" + randomPort;
+                return "OK " + randomPort;
 
             }
         } else if (matchers[1].find()) {
@@ -94,7 +94,7 @@ public class MainServer {
                 e.printStackTrace();
             }
         } else if (matchers[2].find()) {
-            String validityCode = matchers[2].group("validityCOde");
+            String validityCode = matchers[2].group("validityCode");
             String ip = matchers[2].group("ip");
             int beginPort = Integer.parseInt(matchers[2].group("beginPort"));
             int endPort = Integer.parseInt(matchers[2].group("endPort"));

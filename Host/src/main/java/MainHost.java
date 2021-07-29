@@ -86,6 +86,7 @@ public class MainHost {
             mainOutputStream.writeUTF("create-host " + ip + " " + beginPort + " " + endPort);
             mainOutputStream.flush();
             String respond = mainInputStream.readUTF().trim();
+
             if (respond.charAt(0) == 'E') {
                 System.out.println(respond);
                 return;
@@ -101,18 +102,19 @@ public class MainHost {
 
 
                 ServerSocket serverSocket = new ServerSocket(randomPort);
-                mainOutputStream.writeUTF("check " +randomPort +  " for " + ip);
+                mainOutputStream.writeUTF("check " + randomPort + " for " + ip);
                 mainOutputStream.flush();
                 Socket socket = serverSocket.accept();
+
                 DataInputStream dataInputStream = new DataInputStream(socket.getInputStream());
                 String validityCode = dataInputStream.readUTF();
 
                 serverSocket.close();
                 socket.close();
-
-                mainOutputStream.writeUTF("validityCode " + validityCode + ip + beginPort + endPort);
+                System.out.println(validityCode);
+                mainOutputStream.writeUTF("validityCode " + validityCode + " " + ip + " " + beginPort + " " + endPort);
                 respond = mainInputStream.readUTF().trim();
-                if (respond.equals("ERROR Invalid code")){
+                if (respond.equals("ERROR Invalid code")) {
                     System.out.println(respond + "\ntry again later");
                 } else {
                     Host host = new Host(ip, beginPort, endPort);
