@@ -19,7 +19,7 @@ public class MainMenuController {
     }
 
     public void run(){
-
+        this.view.run();
     }
 
     public User getUser() {
