@@ -39,6 +39,8 @@ public class MainClient {
 
     public static void disconnectServer(){
         try {
+            mainOutputStream.writeUTF("disconnect");
+            mainOutputStream.flush();
             mainSocket.close();
         } catch (IOException e) {
             e.printStackTrace();

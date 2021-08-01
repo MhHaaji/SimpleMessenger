@@ -40,11 +40,12 @@ public class RegisterAndLoginMenuController {
                 if (idMatcher.find()) {
                     User user = new User(username, phoneNumber, password, idMatcher.group("id"));
                     System.out.println("user created successfully");
-                } else {
-                    System.out.println(respond);
                 }
 
+            } else {
+                System.out.println(respond);
             }
+            MainClient.disconnectServer();
 
         } else if (matchers[1].find()) {
 

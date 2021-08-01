@@ -41,7 +41,7 @@ public class MainServer {
                 DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
                 while (true) {
                     String command = dataInputStream.readUTF();
-                    if (command == "shutdown") {
+                    if (command == "disconnect") {
                         break;
                     }
 
@@ -110,9 +110,9 @@ public class MainServer {
             }
 
         } else if (matchers[3].find()){
-            String username = matchers[0].group("username");
-            String phoneNumber =  matchers[0].group("phoneNumber");
-            String password = matchers[0].group("password");
+            String username = matchers[3].group("username");
+            String phoneNumber =  matchers[3].group("phoneNumber");
+            String password = matchers[3].group("password");
 
             if (User.getUserByUserName(username) != null){
                 return "ERROR: user with this username exists";
