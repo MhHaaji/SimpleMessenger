@@ -20,7 +20,4 @@ public class WorkSpace {
         this.ownerUsername = ownerUsername;
     }
 
-    public void run(){
-
-    }
 }

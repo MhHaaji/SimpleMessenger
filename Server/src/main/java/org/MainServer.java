@@ -3,6 +3,7 @@ package org;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnixDomainSocketAddress;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -108,18 +109,55 @@ public class MainServer {
                 return "OK created";
             }
 
+        } else if (matchers[3].find()){
+            String username = matchers[0].group("username");
+            String phoneNumber =  matchers[0].group("phoneNumber");
+            String password = matchers[0].group("password");
+
+            if (User.getUserByUserName(username) != null){
+                return "ERROR: user with this username exists";
+            } else if (User.getUserByPhoneNumber(phoneNumber) != null ){
+                return "ERROR: user with this phoneNumber exists";
+            } else {
+                String id = generateRandomUserID();
+                User user = new User(phoneNumber, username, password, id);
+                return "OK id: " + id;
+            }
+        } else if (matchers[4].find()){
+
+        } else if (matchers[5].find()){
+
         }
+//        else if (matchers[6].find()){
+//
+//        }
         return null;
     }
 
     private Matcher[] getCommandMatcher(String command) {
+        //0
         Pattern hostCreationReg = Pattern.compile("create-host (?<ip>[0-9\\.]+) (?<beginPort>[0-9]+) (?<endPort>[0-9]+)");
+        //1
         Pattern checkHostRandomPortReg = Pattern.compile("check (?<port>[0-9]+) for (?<ip>[0-9\\.]+)");
+        //2
         Pattern validityCodeCheckReg = Pattern.compile("validityCode (?<validityCode>[0-9]+) (?<ip>[0-9\\.]+) (?<beginPort>[0-9]+) (?<endPort>[0-9]+)");
+        //3
+        Pattern registerReg = Pattern.compile("client-register -username (?<username>[0-9A-Za-z]+) " +
+                "-phoneNumber (?<phoneNumber>[0-9]+) -password (?<password>[0-9A-Za-z]+)");
+        //4
+        Pattern loginReg = Pattern.compile("client-login -phoneNumber (?<phoneNumber>[0-9]+) -password (?<password>[0-9A-Za-z]+)");
+        //5
+        Pattern createWorkSpaceReg = Pattern.compile("client-create-workspace (?<name>)[0-9A-Za-z]+");
+
         Matcher[] commandMatchers = new Matcher[10];
+
         commandMatchers[0] = hostCreationReg.matcher(command);
         commandMatchers[1] = checkHostRandomPortReg.matcher(command);
         commandMatchers[2] = validityCodeCheckReg.matcher(command);
+        commandMatchers[3] = registerReg.matcher(command);
+        commandMatchers[4] = loginReg.matcher(command);
+        commandMatchers[5] = createWorkSpaceReg.matcher(command);
+
         return commandMatchers;
     }
 
@@ -142,6 +180,16 @@ public class MainServer {
         String AlphaNumericString = "0123456789";
         StringBuilder code = new StringBuilder(10);
         for (int i = 0; i < 10; i++) {
+            int index = (int) (AlphaNumericString.length() * Math.random());
+            code.append(AlphaNumericString.charAt(index));
+        }
+        return code.toString();
+    }
+
+    public String generateRandomUserID(){
+        String AlphaNumericString = "0123456789";
+        StringBuilder code = new StringBuilder(6);
+        for (int i = 0; i < 6; i++) {
             int index = (int) (AlphaNumericString.length() * Math.random());
             code.append(AlphaNumericString.charAt(index));
         }

@@ -1,5 +1,8 @@
 package org.Controller;
+
+import org.MainClient;
 import org.Model.RegisterAndLoginMenu;
+import org.Model.User;
 import org.View.RegisterAndLoginMenuView;
 
 import java.util.regex.Matcher;
@@ -26,6 +29,22 @@ public class RegisterAndLoginMenuController {
     public void commandProcess(String command) {
         Matcher[] matchers = getCommandMatchers(command);
         if (matchers[0].find()) {
+            String username = matchers[0].group("username");
+            String phoneNumber = matchers[0].group("phoneNumber");
+            String password = matchers[0].group("password");
+            MainClient.initializeNetwork();
+            String respond = MainClient.sendAndReceiveServer(command);
+            if (respond.charAt(0) != 'E') {
+                Pattern idReg = Pattern.compile("OK id: (?<id>[0-9]+)");
+                Matcher idMatcher = idReg.matcher(respond);
+                if (idMatcher.find()) {
+                    User user = new User(username, phoneNumber, password, idMatcher.group("id"));
+                    System.out.println("user created successfully");
+                } else {
+                    System.out.println(respond);
+                }
+
+            }
 
         } else if (matchers[1].find()) {
 

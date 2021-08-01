@@ -37,6 +37,14 @@ public class MainClient {
         }
     }
 
+    public static void disconnectServer(){
+        try {
+            mainSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static String sendAndReceiveServer(String command){
         try {
             mainOutputStream.writeUTF(command);
@@ -51,8 +59,9 @@ public class MainClient {
 
     public static void main(String[] args) {
 
-        initializeNetwork();
+//        initializeNetwork();
         RegisterAndLoginMenuController registerAndLoginMenuController = new RegisterAndLoginMenuController();
+        registerAndLoginMenuController.run();
 
     }
 }
