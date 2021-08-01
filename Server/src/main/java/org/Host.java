@@ -1,5 +1,5 @@
-import java.io.IOException;
-import java.net.Socket;
+package org;
+
 import java.util.ArrayList;
 
 public class Host {
@@ -7,7 +7,7 @@ public class Host {
     private int beginPort;
     private int endPort;
     private String validityCode;
-    private ArrayList<WorkSpace> workSpaces = new ArrayList<>();
+    public static ArrayList<WorkSpace> allWorkSpaces = new ArrayList<>();
     public static ArrayList<Host> allHosts = new ArrayList<>();
 
     public Host(String IP, Integer beginPort, Integer endPort) {
@@ -15,7 +15,7 @@ public class Host {
         this.beginPort = beginPort;
         this.endPort = endPort;
         allHosts.add(this);
-        System.out.println("success!!");
+        System.out.println("a new host created: " + this.toString());
     }
 
     public String getIP() {
@@ -31,7 +31,7 @@ public class Host {
     }
 
     public ArrayList<WorkSpace> getWorkSpaces() {
-        return workSpaces;
+        return allWorkSpaces;
     }
 
     public static ArrayList<Host> getAllHosts() {
