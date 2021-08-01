@@ -109,23 +109,31 @@ public class MainServer {
                 return "OK created";
             }
 
-        } else if (matchers[3].find()){
+        } else if (matchers[3].find()) {
             String username = matchers[3].group("username");
-            String phoneNumber =  matchers[3].group("phoneNumber");
+            String phoneNumber = matchers[3].group("phoneNumber");
             String password = matchers[3].group("password");
 
-            if (User.getUserByUserName(username) != null){
+            if (User.getUserByUserName(username) != null) {
                 return "ERROR: user with this username exists";
-            } else if (User.getUserByPhoneNumber(phoneNumber) != null ){
+            } else if (User.getUserByPhoneNumber(phoneNumber) != null) {
                 return "ERROR: user with this phoneNumber exists";
             } else {
                 String id = generateRandomUserID();
                 User user = new User(phoneNumber, username, password, id);
                 return "OK id: " + id;
             }
-        } else if (matchers[4].find()){
-
-        } else if (matchers[5].find()){
+        } else if (matchers[4].find()) {
+            String phoneNumber = matchers[4].group("phoneNumber");
+            String password = matchers[4].group("password");
+            if (User.getUserByPhoneNumber(phoneNumber) == null) {
+                return "ERROR: phoneNumber and password did not match";
+            } else if (!User.getUserByPhoneNumber(phoneNumber).getPassword().equals(password)){
+                return "ERROR: phoneNumber and password did not match";
+            } else {
+                return User.getUserByPhoneNumber(phoneNumber).getSerializedUser();
+            }
+        } else if (matchers[5].find()) {
 
         }
 //        else if (matchers[6].find()){
@@ -186,7 +194,7 @@ public class MainServer {
         return code.toString();
     }
 
-    public String generateRandomUserID(){
+    public String generateRandomUserID() {
         String AlphaNumericString = "0123456789";
         StringBuilder code = new StringBuilder(6);
         for (int i = 0; i < 6; i++) {

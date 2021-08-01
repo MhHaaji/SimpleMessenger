@@ -1,0 +1,2 @@
+client-register -username Haaji -phoneNumber 09183344890 -password 123456
+client-login -phoneNumber 09183344890 -password 123456

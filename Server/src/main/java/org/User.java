@@ -1,8 +1,13 @@
 package org;
 
+import com.google.gson.Gson;
+
+
+import java.nio.file.FileStore;
 import java.util.ArrayList;
 
 public class User {
+
     private String phoneNumber;
     private String username;
     private String password;
@@ -16,6 +21,26 @@ public class User {
         this.password = password;
         this.id = id;
         allUser.add(this);
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public ArrayList<String> getWorkSpaces() {
+        return workSpaces;
     }
 
     public static User getUserByUserName(String username){
@@ -32,5 +57,10 @@ public class User {
                 return user;
         }
         return null;
+    }
+
+    public String getSerializedUser(){
+        Gson gson = new Gson();
+        return gson.toJson(this);
     }
 }

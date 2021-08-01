@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 public class RegisterAndLoginMenuController {
     private RegisterAndLoginMenu model;
     private RegisterAndLoginMenuView view;
+    private User currentUser = null;
 
 
     public RegisterAndLoginMenuController() {
@@ -39,6 +40,7 @@ public class RegisterAndLoginMenuController {
                 Matcher idMatcher = idReg.matcher(respond);
                 if (idMatcher.find()) {
                     User user = new User(username, phoneNumber, password, idMatcher.group("id"));
+
                     System.out.println("user created successfully");
                 }
 
@@ -48,6 +50,18 @@ public class RegisterAndLoginMenuController {
             MainClient.disconnectServer();
 
         } else if (matchers[1].find()) {
+            String phoneNumber = matchers[1].group("phoneNumber");
+            String password = matchers[1].group("password");
+            MainClient.initializeNetwork();
+            String respond = MainClient.sendAndReceiveServer(command);
+            MainClient.disconnectServer();
+            if (respond.charAt(0) != 'E'){
+                System.out.println("user logged in successfully");
+                MainMenuController mainMenuController = new MainMenuController(User.deserializedUser(respond));
+//                mainMenuController.run();
+            } else {
+                System.out.println(respond);
+            }
 
         } else {
             this.view.printString("invalid command");
