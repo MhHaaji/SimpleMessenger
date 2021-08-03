@@ -3,6 +3,7 @@ package org;
 import com.google.gson.Gson;
 
 
+import javax.swing.*;
 import java.nio.file.FileStore;
 import java.util.ArrayList;
 
@@ -54,6 +55,14 @@ public class User {
     public static User getUserByPhoneNumber(String phoneNumber){
         for (User user : allUser){
             if (user.phoneNumber.equals(phoneNumber))
+                return user;
+        }
+        return null;
+    }
+
+    public static User getUserByID(String id){
+        for (User user : allUser){
+            if (user.id.equals(id))
                 return user;
         }
         return null;

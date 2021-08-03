@@ -118,6 +118,7 @@ public class MainHost {
                     System.out.println(respond + "\ntry again later");
                 } else {
                     Host host = new Host(ip, beginPort, endPort);
+                    host.run();
                     System.out.println(respond);
                 }
 
@@ -126,5 +127,13 @@ public class MainHost {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static DataOutputStream getMainOutputStream() {
+        return mainOutputStream;
+    }
+
+    public static DataInputStream getMainInputStream() {
+        return mainInputStream;
     }
 }

@@ -58,7 +58,7 @@ public class RegisterAndLoginMenuController {
             if (respond.charAt(0) != 'E'){
                 System.out.println("user logged in successfully");
                 MainMenuController mainMenuController = new MainMenuController(User.deserializedUser(respond));
-//                mainMenuController.run();
+                mainMenuController.run();
             } else {
                 System.out.println(respond);
             }

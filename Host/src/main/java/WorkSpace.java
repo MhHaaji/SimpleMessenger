@@ -9,15 +9,12 @@ public class WorkSpace {
     private String ownerUsername;
     private ArrayList<String> membersUsername = new ArrayList<>();
     private int port;
-    private Socket socket;
-    private DataOutputStream outputStream;
-    private DataInputStream inputStream;
 
 
-    public WorkSpace(String name, String ownHostIP, String ownerUsername) {
+    public WorkSpace(String name, String ownHostIP) {
         this.name = name;
         this.ownHostIP = ownHostIP;
-        this.ownerUsername = ownerUsername;
+
     }
 
     public void run(){

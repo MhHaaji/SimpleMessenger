@@ -106,6 +106,7 @@ public class MainServer {
             } else {
                 validityCodes.remove(validityCode);
                 Host host = new Host(ip, beginPort, endPort);
+
                 return "OK created";
             }
 
@@ -128,17 +129,25 @@ public class MainServer {
             String password = matchers[4].group("password");
             if (User.getUserByPhoneNumber(phoneNumber) == null) {
                 return "ERROR: phoneNumber and password did not match";
-            } else if (!User.getUserByPhoneNumber(phoneNumber).getPassword().equals(password)){
+            } else if (!User.getUserByPhoneNumber(phoneNumber).getPassword().equals(password)) {
                 return "ERROR: phoneNumber and password did not match";
             } else {
                 return User.getUserByPhoneNumber(phoneNumber).getSerializedUser();
             }
         } else if (matchers[5].find()) {
+            String workSpaceName = matchers[0].group("name");
+            if (Host.allHosts.size() == 0){
+                return "ERROR: there is no available host";
+            } else {
+                Collections.shuffle(Host.getAllHosts());
+                Host host = Host.getAllHosts().get(0);
+
+            }
+
+
+        } else if (matchers[6].find()) {
 
         }
-//        else if (matchers[6].find()){
-//
-//        }
         return null;
     }
 
@@ -156,6 +165,9 @@ public class MainServer {
         Pattern loginReg = Pattern.compile("client-login -phoneNumber (?<phoneNumber>[0-9]+) -password (?<password>[0-9A-Za-z]+)");
         //5
         Pattern createWorkSpaceReg = Pattern.compile("client-create-workspace (?<name>)[0-9A-Za-z]+");
+        //6
+        Pattern connectWorkSpaceReg = Pattern.compile("client-connect-workspace (?<name>)[0-9A-Za-z]+");
+
 
         Matcher[] commandMatchers = new Matcher[10];
 
@@ -165,6 +177,7 @@ public class MainServer {
         commandMatchers[3] = registerReg.matcher(command);
         commandMatchers[4] = loginReg.matcher(command);
         commandMatchers[5] = createWorkSpaceReg.matcher(command);
+        commandMatchers[6] = connectWorkSpaceReg.matcher(command);
 
         return commandMatchers;
     }
@@ -203,4 +216,6 @@ public class MainServer {
         }
         return code.toString();
     }
+
+
 }

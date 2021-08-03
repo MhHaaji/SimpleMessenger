@@ -1,9 +1,11 @@
 package org.Controller;
 
+import org.MainClient;
 import org.Model.MainMenu;
 import org.Model.User;
 import org.View.MainMenuView;
 
+import java.awt.image.ImageFilter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,7 +30,10 @@ public class MainMenuController {
     public void commandProcess(String command) {
         Matcher[] matchers = getCommandMatchers(command);
         if (matchers[0].find()){
-
+            String workSpaceName = matchers[0].group("name");
+            MainClient.initializeNetwork();
+           String respond = MainClient.sendAndReceiveServer(command);
+           MainClient.disconnectServer();
         } else if (matchers[1].find()){
 
         } else if (matchers[2].find()){

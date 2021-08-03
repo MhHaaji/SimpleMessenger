@@ -24,7 +24,18 @@ public class Host {
 
     public void run(){
 
-        runInputCommand();
+
+        while (true){
+            try {
+                String command = MainHost.getMainInputStream().readUTF();
+                if (command == "shutdown")
+                    break;
+                commandProcess(command);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
 
     }
@@ -52,22 +63,13 @@ public class Host {
     }
     public Matcher[] getCommandMatcher(String command){
         Matcher[] commandMatchers = new Matcher[10];
-        Pattern shutdownReg = Pattern.compile("shutdown");
+        //0
+        Pattern creatWorkspaceReg = Pattern.compile("create-workspace (?<port>[0-9]+) (?<userID>[0-9]+) " + this.IP);
 
-        commandMatchers[0] = shutdownReg.matcher(command);
+
+
+        commandMatchers[0] = creatWorkspaceReg.matcher(command);
         return commandMatchers;
     }
 
-    private void runInputCommand(){
-        new Thread(()->{
-            while (true){
-                String input = scanner.nextLine().trim();
-                if (input == "shutdown"){
-                    //TODO: prevent unwanted error
-                    break;
-                }
-                commandProcess(input);
-            }
-        }).start();
-    }
 }
