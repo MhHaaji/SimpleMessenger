@@ -44,6 +44,12 @@ public class MainServer {
                     if (command == "disconnect") {
                         break;
                     }
+                    if (command.contains("disconnect -host")) {
+                        dataOutputStream.writeUTF(hostConnection(command));
+                        dataOutputStream.flush();
+                        break;
+                    }
+
 
                     String respond = commandProcessor(command);
                     if (respond != null) {
@@ -136,7 +142,7 @@ public class MainServer {
             }
         } else if (matchers[5].find()) {
             String workSpaceName = matchers[0].group("name");
-            if (Host.allHosts.size() == 0){
+            if (Host.allHosts.size() == 0) {
                 return "ERROR: there is no available host";
             } else {
                 Collections.shuffle(Host.getAllHosts());
@@ -216,6 +222,29 @@ public class MainServer {
         }
         return code.toString();
     }
+
+    public String hostConnection(String command) {
+        Pattern pattern = Pattern.compile("disconnect -host (?<ip>[0-9\\.]+)");
+        Matcher matcher = pattern.matcher(command);
+        int connectionPort = 0;
+        if (matcher.find()) {
+            String ip = matcher.group("ip");
+            Host host = Host.getHOstByIP(ip);
+            for (int i = host.getBeginPort(); i <= host.getEndPort(); i++) {
+                if (isPortAvailable(i)) {
+                    connectionPort = i;
+                    break;
+                }
+            }
+            host.setConnectionPort(connectionPort);
+            host.runThisHostServer();
+
+        }
+
+
+        return String.valueOf(connectionPort);
+    }
+
 
 
 }
