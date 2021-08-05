@@ -147,6 +147,7 @@ public class MainServer {
             } else {
                 Collections.shuffle(Host.getAllHosts());
                 Host host = Host.getAllHosts().get(0);
+                //TODO
 
             }
 
@@ -195,6 +196,7 @@ public class MainServer {
 
     public static boolean isPortAvailable(int port) {
         try {
+            //TODO search why works??
             Socket ignored = new Socket("localhost", port);
             ignored.close();
             return true;

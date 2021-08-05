@@ -61,7 +61,6 @@ public class MainClient {
 
     public static void main(String[] args) {
 
-//        initializeNetwork();
         RegisterAndLoginMenuController registerAndLoginMenuController = new RegisterAndLoginMenuController();
         registerAndLoginMenuController.run();
 
